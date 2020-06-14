@@ -1,0 +1,2581 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "This is the API documentation for the go-meetup service",
+    "version": "1.0.0",
+    "title": "Go Meetup Service APIs",
+    "contact": {
+      "name": "Aditya Alif Nugraha",
+      "email": "aditya.nugraha@go-jek.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://rabbit-hole-integration-007.go-meetup.server.golabs.io",
+      "description": "Integration Server"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Event",
+      "description": "API related to event module on the mobile app"
+    },
+    {
+      "name": "Community",
+      "description": "API related to community module on the mobile app"
+    },
+    {
+      "name": "Community_Portal",
+      "description": "API related to community module on the go-meetup portal"
+    }
+  ],
+  "security": [
+    {
+      "Authorization": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "Authorization": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "parameters": {
+      "permission": {
+        "in": "header",
+        "name": "Permission",
+        "schema": {
+          "type": "string",
+          "format": "string"
+        },
+        "required": true
+      },
+      "location": {
+        "in": "header",
+        "name": "X-Location",
+        "schema": {
+          "type": "string",
+          "format": "string"
+        },
+        "required": false
+      }
+    },
+    "schemas": {
+      "SucessResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object"
+          },
+          "errors": {
+            "type": "object",
+            "example": null
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          }
+        }
+      },
+      "CreateOrUpdateEventResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          },
+          "errors": {
+            "type": "object",
+            "example": null
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          }
+        }
+      },
+      "UploadEventImageResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "image_upload_url": {
+                "type": "string"
+              }
+            }
+          },
+          "errors": {
+            "type": "object",
+            "example": null
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          }
+        }
+      },
+      "GetEventListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "upcoming": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jabodetabek"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "Pasaraya mall"
+                    },
+                    "start_date": {
+                      "type": "string",
+                      "example": "date"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "example": "date"
+                    },
+                    "total_invitees": {
+                      "type": "integer"
+                    },
+                    "is_virtual": {
+                      "type": "boolean"
+                    },
+                    "rider_type": {
+                      "type": "string"
+                    },
+                    "invitee_type": {
+                      "type": "string",
+                      "enum": [
+                        "all members",
+                        "only key members",
+                        "only leaders"
+                      ]
+                    }
+                  }
+                }
+              },
+              "submitted": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jabodetabek"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "Pasaraya mall"
+                    },
+                    "start_date": {
+                      "type": "string",
+                      "example": "date"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "example": "date"
+                    },
+                    "total_invitees": {
+                      "type": "integer"
+                    },
+                    "is_virtual": {
+                      "type": "boolean"
+                    },
+                    "rider_type": {
+                      "type": "string"
+                    },
+                    "invitee_type": {
+                      "type": "string",
+                      "enum": [
+                        "all members",
+                        "only key members",
+                        "only leaders"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "errors": {
+            "type": "object",
+            "example": null
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          }
+        }
+      },
+      "GetEventDetailByIdSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "errors": {
+            "type": "array",
+            "items": {}
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "Jabodetabek"
+              },
+              "description": {
+                "type": "string",
+                "example": "Event description"
+              },
+              "location": {
+                "type": "string",
+                "example": "-6.1234,34.5343345"
+              },
+              "address": {
+                "type": "string",
+                "example": "Pasaraya mall"
+              },
+              "start_date": {
+                "type": "string",
+                "example": "date"
+              },
+              "end_date": {
+                "type": "string",
+                "example": "date"
+              },
+              "created_by": {
+                "type": "string",
+                "example": "hjdshf"
+              },
+              "invitee_type": {
+                "type": "string",
+                "enum": [
+                  "all members",
+                  "only key members",
+                  "only leaders"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "created",
+                  "started",
+                  "cancelled",
+                  "pending",
+                  "submitted"
+                ],
+                "example": "created"
+              },
+              "image": {
+                "type": "string",
+                "example": "http://example.com/image.jpg"
+              },
+              "event_type": {
+                "type": "string",
+                "enum": [
+                  "planned",
+                  "instant"
+                ],
+                "example": "planned"
+              },
+              "address_note": {
+                "type": "string",
+                "example": "Near something"
+              },
+              "is_virtual": {
+                "type": "boolean"
+              },
+              "start_url": {
+                "type": "string"
+              },
+              "invitees": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "community_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string"
+                    },
+                    "created_by": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetCommunityMemberSucessResponse": {
+        "type": "object",
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "driver_id": {
+                  "type": "integer"
+                },
+                "image_url": {
+                  "type": "string"
+                },
+                "phone_number": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "designation": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      },
+      "GetCommunityListResponse": {
+        "type": "object",
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "leader_name": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "address": {
+                  "type": "string"
+                },
+                "created_by": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      },
+      "GetGroupListResponse": {
+        "type": "object",
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "address": {
+                  "type": "string"
+                },
+                "created_by": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      },
+      "CommunityByOwnerResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "communities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "total_members": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "address": {
+                        "type": "string"
+                      },
+                      "service_id": {
+                        "type": "integer"
+                      },
+                      "rider_type": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "created_by": {
+                        "type": "string"
+                      },
+                      "tag": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "leader": {
+                        "type": "string"
+                      },
+                      "service_area_name": {
+                        "type": "string"
+                      },
+                      "is_editable": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                },
+                "page_options": {
+                  "type": "object",
+                  "properties": {
+                    "page_size": {
+                      "type": "integer"
+                    },
+                    "total_pages": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "CreateCommunitySucessResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "community_id": {
+                "type": "string"
+              },
+              "photo_upload_url": {
+                "type": "string"
+              },
+              "logo_upload_url": {
+                "type": "string"
+              }
+            }
+          },
+          "errors": {
+            "type": "object",
+            "example": null
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          }
+        }
+      },
+      "UpdateCommunitySuccessResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "community_id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "rider_type": {
+                "type": "string"
+              },
+              "establishment_year": {
+                "type": "string"
+              },
+              "photo": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              },
+              "logo": {
+                "type": "string"
+              },
+              "status": {
+                "type": "integer"
+              },
+              "service_id": {
+                "type": "integer"
+              }
+            }
+          },
+          "errors": {
+            "type": "object",
+            "example": null
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "data": {
+            "type": "object"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "message_title": {
+                  "type": "string"
+                },
+                "message_severity": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/agent/api/v1/event/create": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To create planned or instant event",
+        "operationId": "createEvent",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "start_datetime": {
+                    "type": "string"
+                  },
+                  "end_datetime": {
+                    "type": "string"
+                  },
+                  "invitee_type": {
+                    "type": "string",
+                    "enum": [
+                      "all members",
+                      "only key members",
+                      "only leaders"
+                    ]
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "rider_type": {
+                    "type": "string",
+                    "enum": [
+                      "2w",
+                      "4w"
+                    ]
+                  },
+                  "invitees": {
+                    "type": "array",
+                    "items": {},
+                    "example": [
+                      543121
+                    ]
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "address_note": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "planned",
+                      "instant"
+                    ]
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "is_virtual": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrUpdateEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/event/update": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To update planned event",
+        "operationId": "updateEvent",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_id": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "start_datetime": {
+                    "type": "string"
+                  },
+                  "end_datetime": {
+                    "type": "string"
+                  },
+                  "invitee_type": {
+                    "type": "string",
+                    "enum": [
+                      "all members",
+                      "only key members",
+                      "only leaders"
+                    ]
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "rider_type": {
+                    "type": "string",
+                    "enum": [
+                      "2w",
+                      "4w"
+                    ]
+                  },
+                  "invitees": {
+                    "type": "array",
+                    "items": {},
+                    "example": [
+                      543121
+                    ]
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "address_note": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "planned",
+                      "instant"
+                    ]
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "is_virtual": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrUpdateEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/event/start": {
+      "patch": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To start the event",
+        "operationId": "startEvent",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SucessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/event/submit": {
+      "patch": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To submit the event",
+        "operationId": "submitEven",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SucessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/event/{event_id}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To get event detail by event id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          },
+          {
+            "in": "path",
+            "name": "event_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEventDetailByIdSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To delete an by event id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          },
+          {
+            "in": "path",
+            "name": "event_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SucessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/communities": {
+      "get": {
+        "tags": [
+          "Community"
+        ],
+        "summary": "To get community list created by the user",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCommunityListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/communities/other": {
+      "get": {
+        "tags": [
+          "Community"
+        ],
+        "summary": "To get community list not created by the user but in the same service area",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCommunityListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/groups": {
+      "get": {
+        "tags": [
+          "Community"
+        ],
+        "summary": "To get group list created by the user",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetGroupListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/groups/other": {
+      "get": {
+        "tags": [
+          "Community"
+        ],
+        "summary": "To get group list not created by the user but in the same service area",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetGroupListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/event/image": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To get image upload presigned url",
+        "operationId": "uploadEventImage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_id": {
+                    "type": "integer"
+                  },
+                  "file_name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadEventImageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/events/list": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To get event list (upcoming and submitted) of authorized user",
+        "operationId": "getEventList",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEventListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/event_attendee/capture": {
+      "post": {
+        "tags": [
+          "Event Attendee"
+        ],
+        "summary": "To capture event attenddee",
+        "operationId": "captureAttendee",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          },
+          {
+            "in": "header",
+            "name": "message",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SucessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/update": {
+      "put": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To update community",
+        "operationId": "updateCommunity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "community_id": {
+                    "type": "integer"
+                  },
+                  "latitude": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "rider_type": {
+                    "type": "string"
+                  },
+                  "establishment_year": {
+                    "type": "string"
+                  },
+                  "photo": {
+                    "type": "string"
+                  },
+                  "tag": {
+                    "type": "string"
+                  },
+                  "logo": {
+                    "type": "string"
+                  },
+                  "longitude": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateCommunitySuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/members/designation/update": {
+      "put": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To update community members designation",
+        "operationId": "updateCommunityMembersDesignation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "members": {
+                    "type": "array",
+                    "example": [
+                      {
+                        "community_member_mapping_id": "1234567890",
+                        "designation": "Leader"
+                      },
+                      {
+                        "community_member_mapping_id": "1234567890",
+                        "designation": "Key Memebr"
+                      }
+                    ],
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "community_member_mapping_id": {
+                          "type": "integer"
+                        },
+                        "designation": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "status_code": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/members/designation/delete": {
+      "post": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To delete community members designation",
+        "operationId": "delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "community_member_mapping_ids": {
+                    "type": "array",
+                    "items": {},
+                    "example": [
+                      1,
+                      2
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "status_code": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/create": {
+      "post": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To create community",
+        "operationId": "createCommunity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "latitude": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "rider_type": {
+                    "type": "string"
+                  },
+                  "establishment_year": {
+                    "type": "string"
+                  },
+                  "photo": {
+                    "type": "string"
+                  },
+                  "tag": {
+                    "type": "string"
+                  },
+                  "logo": {
+                    "type": "string"
+                  },
+                  "longitude": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCommunitySucessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/delete": {
+      "post": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To delete communities",
+        "operationId": "deleteCommunities",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "community_ids": {
+                    "type": "array",
+                    "items": {},
+                    "example": [
+                      "COMMUNITY_ID_1",
+                      "COMMUNITY_ID_2",
+                      "...",
+                      "COMMUNITY_ID_N"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SucessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/community/{id}/members": {
+      "get": {
+        "tags": [
+          "Community"
+        ],
+        "summary": "To get community member list",
+        "operationId": "getCommunityMembers",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "community_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCommunityMemberSucessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/by_owner": {
+      "get": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To get community by owner",
+        "operationId": "getCommunitiesByOwner",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "page_number",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rider_type",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "tag",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "creator",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommunityByOwnerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/{community_id}/members": {
+      "post": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To add members in community",
+        "operationId": "addCommunityMembers",
+        "parameters": [
+          {
+            "name": "community_id",
+            "in": "path",
+            "required": true,
+            "description": "Community id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "members": {
+                    "type": "array",
+                    "example": [
+                      {
+                        "phone_no": "1234567890",
+                        "designation": "Designation"
+                      },
+                      {
+                        "phone_no": "1234567890",
+                        "designation": "Designation"
+                      }
+                    ],
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "phone_no": {
+                          "type": "string"
+                        },
+                        "designation": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "status_code": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "new_members": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "phone_no": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "designation": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "invalid_members": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "phone_no": {
+                                "type": "string"
+                              },
+                              "error": {
+                                "type": "boolean",
+                                "example": true
+                              },
+                              "error_message": {
+                                "type": "string"
+                              },
+                              "designation": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/{community_id}/members_list": {
+      "get": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To get community members",
+        "operationId": "member_list",
+        "parameters": [
+          {
+            "name": "community_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_number",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "status_code": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "page_number": {
+                              "type": "integer"
+                            },
+                            "page_size": {
+                              "type": "integer"
+                            },
+                            "total_pages": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        "members": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "designation": {
+                                "type": "string"
+                              },
+                              "driver_id": {
+                                "type": "string"
+                              },
+                              "member_id": {
+                                "type": "integer"
+                              },
+                              "community_id": {
+                                "type": "integer"
+                              },
+                              "community_member_mapping_id": {
+                                "type": "integer"
+                              },
+                              "status": {
+                                "type": "integer"
+                              },
+                              "phone_no": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/{community_id}/leader": {
+      "get": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To get community leader",
+        "operationId": "communityLeader",
+        "parameters": [
+          {
+            "name": "community_id",
+            "in": "path",
+            "required": true,
+            "description": "Community id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "status_code": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "designation": {
+                          "type": "string"
+                        },
+                        "driver_id": {
+                          "type": "string"
+                        },
+                        "member_id": {
+                          "type": "integer"
+                        },
+                        "community_id": {
+                          "type": "integer"
+                        },
+                        "community_member_mapping_id": {
+                          "type": "integer"
+                        },
+                        "status": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portal/api/v1/community/{id}": {
+      "get": {
+        "tags": [
+          "Community_Portal"
+        ],
+        "summary": "To get community details",
+        "operationId": "get_community_by_id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Community id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "status_code": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "address": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "rider_type": {
+                          "type": "string"
+                        },
+                        "total_members": {
+                          "type": "string"
+                        },
+                        "manager": {
+                          "type": "string"
+                        },
+                        "leader": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find go-meetup service repository here",
+    "url": "https://source.golabs.io/ops-tech/go-meetup"
+  }
+}
