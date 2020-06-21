@@ -3,11 +3,6 @@ require "json"
 desc 'Generate kotlin data class and endpoints'
 
 task :g_network_code, [:file_name] do |t, args|
-
-=begin
-  json_data = json_data_from_file(args)
-  component_schemas = json_data['components']['schemas']
-=end
   code_generator = CodeGenerator.new(args)
   code_generator.exec
 
@@ -132,6 +127,7 @@ class CodeGenerator
     ref =  api_schema['$ref']
     strings = ref.split('/')
     component = strings.last
+    get_param_body(component_schemas[component])
   end
 
   def get_param_body(api_schema)
@@ -150,17 +146,6 @@ class CodeGenerator
         return formatted_entities(keys, properties)
       end
     end
-
-
-
-=begin
-  if type == 'array'
-    puts(__method__)
-    puts("inside array ")
-    get_param_body(api_schema['items'])
-  end
-=end
-
   end
 
   def parse_response(api_res)
@@ -171,4 +156,3 @@ class CodeGenerator
     get_param_body(schema)
   end
 end
-
