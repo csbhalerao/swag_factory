@@ -7,6 +7,7 @@ task :g_network_code, [:file_name] do |t, args|
   code_generator.exec
 
 end
+
 class CodeGenerator
   attr_reader :file_name, :json_data, :component_schemas
 
@@ -21,7 +22,7 @@ class CodeGenerator
     path_array = paths(api_details)
 
     f_api_details = convert_desired_format(api_details, path_array)
-    puts f_api_details.to_json
+       puts f_api_details.to_json
   end
 
   private_methods
@@ -110,24 +111,19 @@ class CodeGenerator
       end
 
       if properties[key]['type'] == 'array'
-        #formatted_entitles
         items = properties[key]['items']
         properties_items = parse_properties(items)
         if properties_items != nil
           item_keys = get_property_keys(properties_items)
-          param.store(:items, formatted_entities(item_keys, properties_items))
+          child = {
+              obj: formatted_entities(item_keys, properties_items)
+          }
+          param.store(:items, child)
         end
       end
 
       param
     end
-  end
-
-  def handle_schema_ref(api_schema)
-    ref =  api_schema['$ref']
-    strings = ref.split('/')
-    component = strings.last
-    get_param_body(component_schemas[component])
   end
 
   def get_param_body(api_schema)
@@ -146,6 +142,13 @@ class CodeGenerator
         return formatted_entities(keys, properties)
       end
     end
+  end
+
+  def handle_schema_ref(api_schema)
+    ref =  api_schema['$ref']
+    strings = ref.split('/')
+    component = strings.last
+    get_param_body(component_schemas[component])
   end
 
   def parse_response(api_res)

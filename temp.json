@@ -1,0 +1,169 @@
+{
+  "components": {
+    "schemas": {
+      "GetEventListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "upcoming": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jabodetabek"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "Pasaraya mall"
+                    },
+                    "start_date": {
+                      "type": "string",
+                      "example": "date"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "example": "date"
+                    },
+                    "total_invitees": {
+                      "type": "integer"
+                    },
+                    "is_virtual": {
+                      "type": "boolean"
+                    },
+                    "rider_type": {
+                      "type": "string"
+                    },
+                    "invitee_type": {
+                      "type": "string",
+                      "enum": [
+                        "all members",
+                        "only key members",
+                        "only leaders"
+                      ]
+                    }
+                  }
+                }
+              },
+              "submitted": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jabodetabek"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "Pasaraya mall"
+                    },
+                    "start_date": {
+                      "type": "string",
+                      "example": "date"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "example": "date"
+                    },
+                    "total_invitees": {
+                      "type": "integer"
+                    },
+                    "is_virtual": {
+                      "type": "boolean"
+                    },
+                    "rider_type": {
+                      "type": "string"
+                    },
+                    "invitee_type": {
+                      "type": "string",
+                      "enum": [
+                        "all members",
+                        "only key members",
+                        "only leaders"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "errors": {
+            "type": "object",
+            "example": null
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/agent/api/v1/events/list": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To get event list (upcoming and submitted) of authorized user",
+        "operationId": "getEventList",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEventListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
