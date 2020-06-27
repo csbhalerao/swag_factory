@@ -1,0 +1,115 @@
+[
+  {
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "upcoming",
+            "type": "array",
+            "items": {
+              "obj": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "address",
+                  "type": "string"
+                },
+                {
+                  "name": "start_date",
+                  "type": "string"
+                },
+                {
+                  "name": "end_date",
+                  "type": "string"
+                },
+                {
+                  "name": "total_invitees",
+                  "type": "integer"
+                },
+                {
+                  "name": "is_virtual",
+                  "type": "boolean"
+                },
+                {
+                  "name": "rider_type",
+                  "type": "string"
+                },
+                {
+                  "name": "invitee_type",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "name": "submitted",
+            "type": "array",
+            "items": {
+              "obj": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "address",
+                  "type": "string"
+                },
+                {
+                  "name": "start_date",
+                  "type": "string"
+                },
+                {
+                  "name": "end_date",
+                  "type": "string"
+                },
+                {
+                  "name": "total_invitees",
+                  "type": "integer"
+                },
+                {
+                  "name": "is_virtual",
+                  "type": "boolean"
+                },
+                {
+                  "name": "rider_type",
+                  "type": "string"
+                },
+                {
+                  "name": "invitee_type",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/events/list",
+    "method": "get"
+  }
+]

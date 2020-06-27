@@ -3,12 +3,48 @@ require "json"
 desc 'Generate kotlin data class and endpoints'
 
 task :g_network_code, [:file_name] do |t, args|
-  code_generator = CodeGenerator.new(args)
-  code_generator.exec
-
+  api_details = SwaggerConvertor.new(args).exec
+  KotlinCodeGenerator.new(api_details).exec
 end
 
-class CodeGenerator
+class KotlinCodeGenerator
+  attr_reader :api_details
+
+  def initialize(api_dtails)
+    @api_details = api_dtails
+  end
+
+  def generate_class_name(url)
+    chunks = url.split('/')
+    return 'Endpoint' if chunks.nil? || chunks.empty?
+    return chunks[0].capitalize + "Endpoint" if chunks.length < 2
+    last_item = chunks[chunks.length - 1].capitalize
+    second_last_item = chunks[chunks.length - 2].capitalize
+    last_item = '' if last_item.start_with?("{")
+    second_last_item = '' if second_last_item.start_with?("{")
+    last_item + second_last_item + 'Endpoint'
+  end
+
+  def get_endpoint(detail)
+    #puts detail
+    #method = get_http_method(detail[:method])
+    #puts method
+    url = detail[:url]
+    puts url
+    class_name = generate_class_name(url)
+    "interface #{class_name}"
+  end
+
+  def exec()
+    return '' if api_details.nil? || api_details.empty?
+    api_details.map do |detail|
+      puts get_endpoint(detail)
+    end
+  end
+end
+
+
+class SwaggerConvertor
   attr_reader :file_name, :json_data, :component_schemas
 
   def initialize(file_name)
@@ -21,8 +57,7 @@ class CodeGenerator
     api_details = @json_data['paths']
     path_array = paths(api_details)
 
-    f_api_details = convert_desired_format(api_details, path_array)
-       puts f_api_details.to_json
+    convert_desired_format(api_details, path_array)
   end
 
   private_methods
@@ -145,7 +180,7 @@ class CodeGenerator
   end
 
   def handle_schema_ref(api_schema)
-    ref =  api_schema['$ref']
+    ref = api_schema['$ref']
     strings = ref.split('/')
     component = strings.last
     get_param_body(component_schemas[component])
