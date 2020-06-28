@@ -14,8 +14,29 @@ class KotlinCodeGenerator
     @api_details = api_dtails
   end
 
-  def generate_class_name(url)
-    chunks = url.split('/')
+  def exec()
+    return '' if api_details.nil? || api_details.empty?
+    api_details.map do |detail|
+      puts get_endpoint_details(detail)
+    end
+  end
+
+  private
+
+  def format_function_name(chunks)
+    return 'fun a' if chunks.nil? || chunks.empty?
+    return "fun #{chunks[0].capitalize}" if chunks.length < 2
+    last_item = chunks[chunks.length - 1]
+    second_last_item = chunks[chunks.length - 2].capitalize
+    last_item = '' if last_item.start_with?("{")
+    second_last_item = '' if second_last_item.start_with?("{")
+    second_last_item = second_last_item.downcase if last_item.blank?
+    fun_name = last_item + second_last_item
+    'fun ' + fun_name.tr('_', '')  + '('
+      #str.tr!('_', '')
+  end
+
+  def format_endpoint_class_name(chunks)
     return 'Endpoint' if chunks.nil? || chunks.empty?
     return chunks[0].capitalize + "Endpoint" if chunks.length < 2
     last_item = chunks[chunks.length - 1].capitalize
@@ -25,21 +46,30 @@ class KotlinCodeGenerator
     last_item + second_last_item + 'Endpoint'
   end
 
-  def get_endpoint(detail)
-    #puts detail
-    #method = get_http_method(detail[:method])
-    #puts method
-    url = detail[:url]
-    puts url
-    class_name = generate_class_name(url)
-    "interface #{class_name}"
+  def split_url(url)
+    url.split('/')
   end
 
-  def exec()
-    return '' if api_details.nil? || api_details.empty?
-    api_details.map do |detail|
-      puts get_endpoint(detail)
-    end
+  def http_method(method)
+    "@#{method.upcase}"
+  end
+
+  def generate_function_name(name)
+    "fun #{name}"
+  end
+
+  def get_endpoint_details(detail)
+    method = http_method(detail[:method])
+    url = detail[:url]
+    chunks = split_url(url)
+    class_name = format_endpoint_class_name(chunks)
+    formatted_url = '("' + url + '")'
+    interface_str = "interface  #{class_name} { \n"
+    url_str = "#{method}#{formatted_url}  \n"
+    generate_function_name(class_name)
+    function_name = format_function_name(chunks)
+    function_str = "#{function_name}"
+    interface_str + url_str + function_str
   end
 end
 
