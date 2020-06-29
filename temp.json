@@ -112,6 +112,31 @@
             "example": 100
           }
         }
+      },
+      "CreateOrUpdateEventResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          },
+          "errors": {
+            "type": "object",
+            "example": null
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 100
+          }
+        }
       }
     }
   },
@@ -138,6 +163,122 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetEventListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/api/v1/event/update": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "To update planned event",
+        "operationId": "updateEvent",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/permission"
+          },
+          {
+            "$ref": "#/components/parameters/location"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_id": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "start_datetime": {
+                    "type": "string"
+                  },
+                  "end_datetime": {
+                    "type": "string"
+                  },
+                  "invitee_type": {
+                    "type": "string",
+                    "enum": [
+                      "all members",
+                      "only key members",
+                      "only leaders"
+                    ]
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "rider_type": {
+                    "type": "string",
+                    "enum": [
+                      "2w",
+                      "4w"
+                    ]
+                  },
+                  "invitees": {
+                    "type": "array",
+                    "items": {},
+                    "example": [
+                      543121
+                    ]
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "address_note": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "planned",
+                      "instant"
+                    ]
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "is_virtual": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrUpdateEventResponse"
                 }
               }
             }

@@ -111,5 +111,88 @@
     ],
     "url": "/agent/api/v1/events/list",
     "method": "get"
+  },
+  {
+    "request": [
+      {
+        "name": "event_id",
+        "type": "integer"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "start_datetime",
+        "type": "string"
+      },
+      {
+        "name": "end_datetime",
+        "type": "string"
+      },
+      {
+        "name": "invitee_type",
+        "type": "string"
+      },
+      {
+        "name": "location",
+        "type": "string"
+      },
+      {
+        "name": "rider_type",
+        "type": "string"
+      },
+      {
+        "name": "invitees",
+        "type": "array"
+      },
+      {
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "name": "address_note",
+        "type": "string"
+      },
+      {
+        "name": "type",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "is_virtual",
+        "type": "boolean"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/event/update",
+    "method": "post"
   }
 ]

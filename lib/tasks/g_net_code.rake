@@ -4,6 +4,7 @@ desc 'Generate kotlin data class and endpoints'
 
 task :g_network_code, [:file_name] do |t, args|
   api_details = SwaggerConvertor.new(args).exec
+  #puts api_details.to_json
   KotlinCodeGenerator.new(api_details).exec
 end
 
@@ -23,6 +24,46 @@ class KotlinCodeGenerator
 
   private
 
+  def get_endpoint_details(detail)
+    method = http_method(detail[:method])
+    url = detail[:url]
+    request = detail[:request]
+    response = detail[:response]
+    chunks = split_url(url)
+
+    interface_str_to_display = interface_name_to_display(chunks)
+
+    url_str_to_display = annotation_url_to_display(method, url)
+
+    function_str_to_display = function_name_to_display(chunks)
+
+    request_name = function_content(chunks, request)
+
+    puts request_name
+
+    interface_str_to_display + url_str_to_display + function_str_to_display
+  end
+
+  def fetch_path_element(chunks)
+    path_values = ''
+    chunks.each do |element|
+      if element.start_with?("{")
+        element_without_curly = element.tr('{', '')
+        element_without_curly = element_without_curly.tr('}', '')
+        element_to_use = element_without_curly.tr('_', '')
+        path_values += "@Path(#{element_without_curly}) #{element_to_use}: String)"
+      end
+    end
+    path_values
+  end
+
+  def function_content(chunks, request)
+    path_element = fetch_path_element(chunks)
+    return path_element
+    return '' if request.nil? || request.empty?
+
+  end
+
   def format_function_name(chunks)
     return 'fun a' if chunks.nil? || chunks.empty?
     return "fun #{chunks[0].capitalize}" if chunks.length < 2
@@ -32,8 +73,7 @@ class KotlinCodeGenerator
     second_last_item = '' if second_last_item.start_with?("{")
     second_last_item = second_last_item.downcase if last_item.blank?
     fun_name = last_item + second_last_item
-    'fun ' + fun_name.tr('_', '')  + '('
-      #str.tr!('_', '')
+    'fun ' + fun_name.tr('_', '') + '('
   end
 
   def format_endpoint_class_name(chunks)
@@ -54,22 +94,19 @@ class KotlinCodeGenerator
     "@#{method.upcase}"
   end
 
-  def generate_function_name(name)
-    "fun #{name}"
+  def function_name_to_display(chunks)
+    function_name = format_function_name(chunks)
+    "#{function_name}"
   end
 
-  def get_endpoint_details(detail)
-    method = http_method(detail[:method])
-    url = detail[:url]
-    chunks = split_url(url)
-    class_name = format_endpoint_class_name(chunks)
+  def annotation_url_to_display(method, url)
     formatted_url = '("' + url + '")'
-    interface_str = "interface  #{class_name} { \n"
-    url_str = "#{method}#{formatted_url}  \n"
-    generate_function_name(class_name)
-    function_name = format_function_name(chunks)
-    function_str = "#{function_name}"
-    interface_str + url_str + function_str
+    "#{method}#{formatted_url}  \n"
+  end
+
+  def interface_name_to_display(chunks)
+    class_name = format_endpoint_class_name(chunks)
+    "interface  #{class_name} { \n"
   end
 end
 
