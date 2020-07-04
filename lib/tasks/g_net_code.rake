@@ -40,9 +40,11 @@ class KotlinCodeGenerator
 
     fun_content = function_content(chunks, request)
 
-    #puts request_name
+    response_str = build_response(chunks, response)
 
-    interface_str_to_display + url_str_to_display + function_str_to_display + fun_content
+    end_interface_string = "\n }"
+
+    interface_str_to_display + url_str_to_display + function_str_to_display + fun_content + response_str + end_interface_string
   end
 
   def fetch_path_element(chunks)
@@ -52,8 +54,8 @@ class KotlinCodeGenerator
         element_without_curly = element.tr('{', '')
         element_without_curly = element_without_curly.tr('}', '')
         element_to_use = element_without_curly.tr('_', '')
-        formatted_ele = '"'+element_to_use+'"'
-        path_values += "@Path(#{formatted_ele}) #{element_to_use}: String)"
+        formatted_ele = '"' + element_to_use + '"'
+        path_values += "@Path(#{formatted_ele}) #{element_to_use}: String"
       end
     end
     path_values
@@ -70,16 +72,35 @@ class KotlinCodeGenerator
     last_item + second_last_item + req_str
   end
 
+  def build_response_class(class_name, response) end
+
+  def build_response(chunks, response)
+    class_name = build_response_class_name(chunks)
+    build_response_class(class_name, response)
+    ': Single<' + class_name + '>'
+  end
+
+  def build_response_class_name(chunks)
+    res_str = 'Response'
+    return res_str if chunks.nil? || chunks.empty?
+    return chunks[0].capitalize + res_str if chunks.length < 2
+    last_item = chunks[chunks.length - 1].capitalize
+    second_last_item = chunks[chunks.length - 2].capitalize
+    last_item = '' if last_item.start_with?("{")
+    second_last_item = '' if second_last_item.start_with?("{")
+    last_item + second_last_item + res_str
+  end
+
   def build_request_class(class_name) end
 
   def function_content(chunks, request)
     path_element = fetch_path_element(chunks)
     return ')' if (path_element.nil? || path_element.blank?) && (request.nil? || request.empty?)
-    return path_element if request.nil? || request.empty?
+    return path_element + ')' if request.nil? || request.empty?
     class_name = build_request_class_name(chunks)
     build_request_class(class_name)
     body_req = '@Body req: '
-    return path_element + body_req  + class_name + ')' unless path_element.nil?
+    return path_element +', '+ body_req + class_name + ')' unless path_element.nil?
     body_req + class_name + ')'
   end
 
@@ -115,17 +136,17 @@ class KotlinCodeGenerator
 
   def function_name_to_display(chunks)
     function_name = format_function_name(chunks)
-    "#{function_name}"
+    "  #{function_name}"
   end
 
   def annotation_url_to_display(method, url)
     formatted_url = '("' + url + '")'
-    "#{method}#{formatted_url}  \n"
+    "  #{method}#{formatted_url}  \n"
   end
 
   def interface_name_to_display(chunks)
     class_name = format_endpoint_class_name(chunks)
-    "interface  #{class_name} { \n"
+    "interface #{class_name} { \n"
   end
 end
 
