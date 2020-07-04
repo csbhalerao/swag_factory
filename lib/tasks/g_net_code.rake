@@ -18,6 +18,7 @@ class KotlinCodeGenerator
   def exec()
     return '' if api_details.nil? || api_details.empty?
     api_details.map do |detail|
+      #get_endpoint_details(detail)
       puts get_endpoint_details(detail)
     end
   end
@@ -37,11 +38,11 @@ class KotlinCodeGenerator
 
     function_str_to_display = function_name_to_display(chunks)
 
-    request_name = function_content(chunks, request)
+    fun_content = function_content(chunks, request)
 
-    puts request_name
+    #puts request_name
 
-    interface_str_to_display + url_str_to_display + function_str_to_display
+    interface_str_to_display + url_str_to_display + function_str_to_display + fun_content
   end
 
   def fetch_path_element(chunks)
@@ -51,17 +52,35 @@ class KotlinCodeGenerator
         element_without_curly = element.tr('{', '')
         element_without_curly = element_without_curly.tr('}', '')
         element_to_use = element_without_curly.tr('_', '')
-        path_values += "@Path(#{element_without_curly}) #{element_to_use}: String)"
+        formatted_ele = '"'+element_to_use+'"'
+        path_values += "@Path(#{formatted_ele}) #{element_to_use}: String)"
       end
     end
     path_values
   end
 
+  def build_request_class_name(chunks)
+    req_str = 'Request'
+    return req_str if chunks.nil? || chunks.empty?
+    return chunks[0].capitalize + req_str if chunks.length < 2
+    last_item = chunks[chunks.length - 1].capitalize
+    second_last_item = chunks[chunks.length - 2].capitalize
+    last_item = '' if last_item.start_with?("{")
+    second_last_item = '' if second_last_item.start_with?("{")
+    last_item + second_last_item + req_str
+  end
+
+  def build_request_class(class_name) end
+
   def function_content(chunks, request)
     path_element = fetch_path_element(chunks)
-    return path_element
-    return '' if request.nil? || request.empty?
-
+    return ')' if (path_element.nil? || path_element.blank?) && (request.nil? || request.empty?)
+    return path_element if request.nil? || request.empty?
+    class_name = build_request_class_name(chunks)
+    build_request_class(class_name)
+    body_req = '@Body req: '
+    return path_element + body_req  + class_name + ')' unless path_element.nil?
+    body_req + class_name + ')'
   end
 
   def format_function_name(chunks)
