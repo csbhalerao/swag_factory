@@ -9,10 +9,11 @@ task :g_network_code, [:file_name] do |t, args|
 end
 
 class KotlinCodeGenerator
-  attr_reader :api_details
+  attr_reader :api_details, :data_class_requests
 
   def initialize(api_dtails)
     @api_details = api_dtails
+    @data_class_requests = {}
   end
 
   def exec()
@@ -20,6 +21,10 @@ class KotlinCodeGenerator
     api_details.map do |detail|
       #get_endpoint_details(detail)
       puts get_endpoint_details(detail)
+    end
+
+    data_class_requests.each do |req|
+      puts req
     end
   end
 
@@ -72,9 +77,7 @@ class KotlinCodeGenerator
     last_item + second_last_item + req_str
   end
 
-  def build_response_class(class_name, response)
-
-  end
+  def build_response_class(class_name, response) end
 
   def build_response(chunks, response)
     class_name = build_response_class_name(chunks)
@@ -93,8 +96,44 @@ class KotlinCodeGenerator
     last_item + second_last_item + res_str
   end
 
-  def build_request_class(class_name, request)
+  def format_data_class_name(class_name)
+    "data class #{class_name}("
+  end
 
+  def format_param_string_value(param)
+    name = param[:name]
+    data_param_name = name
+    name_chunks = name.split('_')
+    data_param_name = name_chunks[0] + name_chunks[1].capitalize if name_chunks.length > 1
+    '"' + name + '")' + " val #{data_param_name}: String \n"
+  end
+
+  def format_data_class_content(params)
+    prefix = "\n"
+    return prefix + ")" if params.nil? || params.empty?
+    data = ''
+    params.each_with_index do |param, i|
+      param
+      prefix_serialize = '@SerializedName(' if i == 0
+      prefix_serialize = ' @SerializedName(' if i > 0
+      case param[:type]
+      when 'string'
+        param_value = format_param_string_value(param)
+        data += prefix_serialize + param_value
+      else
+        data += ""
+      end
+      data += "," if i < params.length - 1
+      data += "\n)" if i == params.length - 1
+    end
+    data
+  end
+
+
+  def build_request_class(class_name, request)
+    data_class_name = format_data_class_name(class_name)
+    data_class_content = format_data_class_content(request)
+    data_class_name + data_class_content + "\n)"
   end
 
   def function_content(chunks, request)
@@ -102,9 +141,9 @@ class KotlinCodeGenerator
     return ')' if (path_element.nil? || path_element.blank?) && (request.nil? || request.empty?)
     return path_element + ')' if request.nil? || request.empty?
     class_name = build_request_class_name(chunks)
-    build_request_class(class_name, request)
+    data_class_requests.store(class_name, build_request_class(class_name, request))
     body_req = '@Body req: '
-    return path_element +', '+ body_req + class_name + ')' unless (path_element.nil? || path_element.blank?)
+    return path_element +', ' + body_req + class_name + ')' unless (path_element.nil? || path_element.blank?)
     body_req + class_name + ')'
   end
 
