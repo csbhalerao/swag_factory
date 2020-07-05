@@ -19,7 +19,6 @@ class KotlinCodeGenerator
   def exec()
     return '' if api_details.nil? || api_details.empty?
     api_details.map do |detail|
-      #get_endpoint_details(detail)
       puts get_endpoint_details(detail)
     end
 
@@ -97,7 +96,7 @@ class KotlinCodeGenerator
   end
 
   def format_data_class_name(class_name)
-    "data class #{class_name}("
+    "data class #{class_name}(\n"
   end
 
   def format_param_string_value(param)
@@ -106,6 +105,30 @@ class KotlinCodeGenerator
     name_chunks = name.split('_')
     data_param_name = name_chunks[0] + name_chunks[1].capitalize if name_chunks.length > 1
     '"' + name + '")' + " val #{data_param_name}: String \n"
+  end
+
+  def format_param_integer_value(param)
+    name = param[:name]
+    data_param_name = name
+    name_chunks = name.split('_')
+    data_param_name = name_chunks[0] + name_chunks[1].capitalize if name_chunks.length > 1
+    '"' + name + '")' + " val #{data_param_name}: Int \n"
+  end
+
+  def format_param_bool_value(param)
+    name = param[:name]
+    data_param_name = name
+    name_chunks = name.split('_')
+    data_param_name = name_chunks[0] + name_chunks[1].capitalize if name_chunks.length > 1
+    '"' + name + '")' + " val #{data_param_name}: Boolean \n"
+  end
+
+  def format_param_double_value(param)
+    name = param[:name]
+    data_param_name = name
+    name_chunks = name.split('_')
+    data_param_name = name_chunks[0] + name_chunks[1].capitalize if name_chunks.length > 1
+    '"' + name + '")' + " val #{data_param_name}: Double \n"
   end
 
   def format_data_class_content(params)
@@ -120,11 +143,20 @@ class KotlinCodeGenerator
       when 'string'
         param_value = format_param_string_value(param)
         data += prefix_serialize + param_value
+      when 'integer'
+        param_value = format_param_integer_value(param)
+        data += prefix_serialize + param_value
+      when 'boolean'
+        param_value = format_param_bool_value(param)
+        data += prefix_serialize + param_value
+      when 'double'
+        param_value = format_param_double_value(param)
+        data += prefix_serialize + param_value
       else
         data += ""
       end
       data += "," if i < params.length - 1
-      data += "\n)" if i == params.length - 1
+        #data += "\n)" if i == params.length - 1
     end
     data
   end
@@ -133,7 +165,7 @@ class KotlinCodeGenerator
   def build_request_class(class_name, request)
     data_class_name = format_data_class_name(class_name)
     data_class_content = format_data_class_content(request)
-    data_class_name + data_class_content + "\n)"
+    data_class_name + data_class_content + ")"
   end
 
   def function_content(chunks, request)
