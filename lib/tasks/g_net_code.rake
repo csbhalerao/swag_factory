@@ -72,7 +72,9 @@ class KotlinCodeGenerator
     last_item + second_last_item + req_str
   end
 
-  def build_response_class(class_name, response) end
+  def build_response_class(class_name, response)
+
+  end
 
   def build_response(chunks, response)
     class_name = build_response_class_name(chunks)
@@ -91,16 +93,18 @@ class KotlinCodeGenerator
     last_item + second_last_item + res_str
   end
 
-  def build_request_class(class_name) end
+  def build_request_class(class_name, request)
+
+  end
 
   def function_content(chunks, request)
     path_element = fetch_path_element(chunks)
     return ')' if (path_element.nil? || path_element.blank?) && (request.nil? || request.empty?)
     return path_element + ')' if request.nil? || request.empty?
     class_name = build_request_class_name(chunks)
-    build_request_class(class_name)
+    build_request_class(class_name, request)
     body_req = '@Body req: '
-    return path_element +', '+ body_req + class_name + ')' unless path_element.nil?
+    return path_element +', '+ body_req + class_name + ')' unless (path_element.nil? || path_element.blank?)
     body_req + class_name + ')'
   end
 
