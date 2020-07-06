@@ -19,7 +19,8 @@ class KotlinCodeGenerator
   def exec()
     return '' if api_details.nil? || api_details.empty?
     api_details.map do |detail|
-      puts get_endpoint_details(detail)
+      #puts get_endpoint_details(detail)
+      get_endpoint_details(detail)
     end
 
     data_class_requests.each do |req|
@@ -131,6 +132,33 @@ class KotlinCodeGenerator
     '"' + name + '")' + " val #{data_param_name}: Double \n"
   end
 
+  def save_array_element(array_class_element, object)
+    build_request_class(array_class_element, object)
+  end
+
+  def format_param_array_value(param)
+    name = param[:name]
+    array_items = param[:items]
+
+    data_param_name = name
+    name_chunks = name.split('_')
+    data_param_name = name_chunks[0] + name_chunks[1].capitalize if name_chunks.length > 1
+    array_class_element = ''
+    unless array_items.nil? || array_items.empty?
+      array_class_element = array_class_element_name(name_chunks)
+      save_array_element(array_class_element, array_items[:obj])
+    end
+    return '"' + name + '")' + " val #{data_param_name}: ArrayList<String> \n" if array_items.nil?
+    '"' + name + '")' + " val #{data_param_name}: ArrayList<#{array_class_element}> \n" unless array_items.nil?
+  end
+
+  def array_class_element_name(name_chunks)
+    array_class_element = ''
+    array_class_element = name_chunks[0].capitalize + name_chunks[1].capitalize if name_chunks.length > 1
+    array_class_element = name_chunks[0].capitalize if name_chunks.length == 1
+    array_class_element
+  end
+
   def format_data_class_content(params)
     prefix = "\n"
     return prefix + ")" if params.nil? || params.empty?
@@ -152,11 +180,14 @@ class KotlinCodeGenerator
       when 'double'
         param_value = format_param_double_value(param)
         data += prefix_serialize + param_value
+      when 'array'
+        param_value = format_param_array_value(param)
+        data += prefix_serialize + param_value
       else
         data += ""
       end
       data += "," if i < params.length - 1
-        #data += "\n)" if i == params.length - 1
+      #data += "\n)" if i == params.length - 1
     end
     data
   end

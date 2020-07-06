@@ -1,0 +1,1400 @@
+[
+  {
+    "request": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "start_datetime",
+        "type": "string"
+      },
+      {
+        "name": "end_datetime",
+        "type": "string"
+      },
+      {
+        "name": "invitee_type",
+        "type": "string"
+      },
+      {
+        "name": "location",
+        "type": "string"
+      },
+      {
+        "name": "rider_type",
+        "type": "string"
+      },
+      {
+        "name": "invitees",
+        "type": "array"
+      },
+      {
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "name": "address_note",
+        "type": "string"
+      },
+      {
+        "name": "type",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "is_virtual",
+        "type": "boolean"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/event/create",
+    "method": "post"
+  },
+  {
+    "request": [
+      {
+        "name": "event_id",
+        "type": "integer"
+      },
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "start_datetime",
+        "type": "string"
+      },
+      {
+        "name": "end_datetime",
+        "type": "string"
+      },
+      {
+        "name": "invitee_type",
+        "type": "string"
+      },
+      {
+        "name": "location",
+        "type": "string"
+      },
+      {
+        "name": "rider_type",
+        "type": "string"
+      },
+      {
+        "name": "invitees",
+        "type": "array"
+      },
+      {
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "name": "address_note",
+        "type": "string"
+      },
+      {
+        "name": "type",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "is_virtual",
+        "type": "boolean"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/event/update",
+    "method": "post"
+  },
+  {
+    "request": [
+      {
+        "name": "event_id",
+        "type": "integer"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/event/start",
+    "method": "patch"
+  },
+  {
+    "request": [
+      {
+        "name": "event_id",
+        "type": "integer"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/event/submit",
+    "method": "patch"
+  },
+  {
+    "response": [
+      {
+        "name": "status_code",
+        "type": "integer"
+      },
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "errors",
+        "type": "array"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "location",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "type": "string"
+          },
+          {
+            "name": "start_date",
+            "type": "string"
+          },
+          {
+            "name": "end_date",
+            "type": "string"
+          },
+          {
+            "name": "created_by",
+            "type": "string"
+          },
+          {
+            "name": "invitee_type",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "type": "string"
+          },
+          {
+            "name": "event_type",
+            "type": "string"
+          },
+          {
+            "name": "address_note",
+            "type": "string"
+          },
+          {
+            "name": "is_virtual",
+            "type": "boolean"
+          },
+          {
+            "name": "start_url",
+            "type": "string"
+          },
+          {
+            "name": "invitees",
+            "type": "array",
+            "items": {
+              "obj": [
+                {
+                  "name": "community_id",
+                  "type": "integer"
+                },
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "address",
+                  "type": "string"
+                },
+                {
+                  "name": "created_by",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "url": "/agent/api/v1/event/{event_id}",
+    "method": "get"
+  },
+  {
+    "response": [
+      {
+        "name": "status_code",
+        "type": "integer"
+      },
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "array",
+        "items": {
+          "obj": [
+            {
+              "name": "id",
+              "type": "integer"
+            },
+            {
+              "name": "leader_name",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "address",
+              "type": "string"
+            },
+            {
+              "name": "created_by",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "errors",
+        "type": "array"
+      }
+    ],
+    "url": "/agent/api/v1/communities",
+    "method": "get"
+  },
+  {
+    "response": [
+      {
+        "name": "status_code",
+        "type": "integer"
+      },
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "array",
+        "items": {
+          "obj": [
+            {
+              "name": "id",
+              "type": "integer"
+            },
+            {
+              "name": "leader_name",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "address",
+              "type": "string"
+            },
+            {
+              "name": "created_by",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "errors",
+        "type": "array"
+      }
+    ],
+    "url": "/agent/api/v1/communities/other",
+    "method": "get"
+  },
+  {
+    "response": [
+      {
+        "name": "status_code",
+        "type": "integer"
+      },
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "array",
+        "items": {
+          "obj": [
+            {
+              "name": "id",
+              "type": "integer"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "address",
+              "type": "string"
+            },
+            {
+              "name": "created_by",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "errors",
+        "type": "array"
+      }
+    ],
+    "url": "/agent/api/v1/groups",
+    "method": "get"
+  },
+  {
+    "response": [
+      {
+        "name": "status_code",
+        "type": "integer"
+      },
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "array",
+        "items": {
+          "obj": [
+            {
+              "name": "id",
+              "type": "integer"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "address",
+              "type": "string"
+            },
+            {
+              "name": "created_by",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "errors",
+        "type": "array"
+      }
+    ],
+    "url": "/agent/api/v1/groups/other",
+    "method": "get"
+  },
+  {
+    "request": [
+      {
+        "name": "event_id",
+        "type": "integer"
+      },
+      {
+        "name": "file_name",
+        "type": "string"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "image_upload_url",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/event/image",
+    "method": "post"
+  },
+  {
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "upcoming",
+            "type": "array",
+            "items": {
+              "obj": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "address",
+                  "type": "string"
+                },
+                {
+                  "name": "start_date",
+                  "type": "string"
+                },
+                {
+                  "name": "end_date",
+                  "type": "string"
+                },
+                {
+                  "name": "total_invitees",
+                  "type": "integer"
+                },
+                {
+                  "name": "is_virtual",
+                  "type": "boolean"
+                },
+                {
+                  "name": "rider_type",
+                  "type": "string"
+                },
+                {
+                  "name": "invitee_type",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "name": "submitted",
+            "type": "array",
+            "items": {
+              "obj": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "address",
+                  "type": "string"
+                },
+                {
+                  "name": "start_date",
+                  "type": "string"
+                },
+                {
+                  "name": "end_date",
+                  "type": "string"
+                },
+                {
+                  "name": "total_invitees",
+                  "type": "integer"
+                },
+                {
+                  "name": "is_virtual",
+                  "type": "boolean"
+                },
+                {
+                  "name": "rider_type",
+                  "type": "string"
+                },
+                {
+                  "name": "invitee_type",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/events/list",
+    "method": "get"
+  },
+  {
+    "request": [
+      {
+        "name": "event_id",
+        "type": "integer"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/agent/api/v1/event_attendee/capture",
+    "method": "post"
+  },
+  {
+    "request": [
+      {
+        "name": "community_id",
+        "type": "integer"
+      },
+      {
+        "name": "latitude",
+        "type": "integer"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "name": "rider_type",
+        "type": "string"
+      },
+      {
+        "name": "establishment_year",
+        "type": "string"
+      },
+      {
+        "name": "photo",
+        "type": "string"
+      },
+      {
+        "name": "tag",
+        "type": "string"
+      },
+      {
+        "name": "logo",
+        "type": "string"
+      },
+      {
+        "name": "longitude",
+        "type": "integer"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "community_id",
+            "type": "integer"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "type": "string"
+          },
+          {
+            "name": "rider_type",
+            "type": "string"
+          },
+          {
+            "name": "establishment_year",
+            "type": "string"
+          },
+          {
+            "name": "photo",
+            "type": "string"
+          },
+          {
+            "name": "tag",
+            "type": "string"
+          },
+          {
+            "name": "logo",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "integer"
+          },
+          {
+            "name": "service_id",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/portal/api/v1/community/update",
+    "method": "put"
+  },
+  {
+    "request": [
+      {
+        "name": "members",
+        "type": "array",
+        "items": {
+          "obj": [
+            {
+              "name": "community_member_mapping_id",
+              "type": "integer"
+            },
+            {
+              "name": "designation",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "status_code",
+        "type": "string"
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": null
+      }
+    ],
+    "url": "/portal/api/v1/community/members/designation/update",
+    "method": "put"
+  },
+  {
+    "request": [
+      {
+        "name": "community_member_mapping_ids",
+        "type": "array"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "status_code",
+        "type": "string"
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": null
+      }
+    ],
+    "url": "/portal/api/v1/community/members/designation/delete",
+    "method": "post"
+  },
+  {
+    "request": [
+      {
+        "name": "latitude",
+        "type": "integer"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "name": "rider_type",
+        "type": "string"
+      },
+      {
+        "name": "establishment_year",
+        "type": "string"
+      },
+      {
+        "name": "photo",
+        "type": "string"
+      },
+      {
+        "name": "tag",
+        "type": "string"
+      },
+      {
+        "name": "logo",
+        "type": "string"
+      },
+      {
+        "name": "longitude",
+        "type": "integer"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "community_id",
+            "type": "string"
+          },
+          {
+            "name": "photo_upload_url",
+            "type": "string"
+          },
+          {
+            "name": "logo_upload_url",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/portal/api/v1/community/create",
+    "method": "post"
+  },
+  {
+    "request": [
+      {
+        "name": "community_ids",
+        "type": "array"
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "status_code",
+        "type": "integer"
+      }
+    ],
+    "url": "/portal/api/v1/community/delete",
+    "method": "post"
+  },
+  {
+    "response": [
+      {
+        "name": "status_code",
+        "type": "integer"
+      },
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "array",
+        "items": {
+          "obj": [
+            {
+              "name": "driver_id",
+              "type": "integer"
+            },
+            {
+              "name": "image_url",
+              "type": "string"
+            },
+            {
+              "name": "phone_number",
+              "type": "string"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            },
+            {
+              "name": "designation",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "errors",
+        "type": "array"
+      }
+    ],
+    "url": "/agent/api/v1/community/{id}/members",
+    "method": "get"
+  },
+  {
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "data",
+        "type": "array",
+        "items": {
+          "obj": [
+            {
+              "name": "communities",
+              "type": "array",
+              "items": {
+                "obj": [
+                  {
+                    "name": "created_at",
+                    "type": "string"
+                  },
+                  {
+                    "name": "total_members",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "name": "id",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "address",
+                    "type": "string"
+                  },
+                  {
+                    "name": "service_id",
+                    "type": "integer"
+                  },
+                  {
+                    "name": "rider_type",
+                    "type": "string"
+                  },
+                  {
+                    "name": "updated_at",
+                    "type": "string"
+                  },
+                  {
+                    "name": "created_by",
+                    "type": "string"
+                  },
+                  {
+                    "name": "tag",
+                    "type": "string"
+                  },
+                  {
+                    "name": "status",
+                    "type": "string"
+                  },
+                  {
+                    "name": "leader",
+                    "type": "string"
+                  },
+                  {
+                    "name": "service_area_name",
+                    "type": "string"
+                  },
+                  {
+                    "name": "is_editable",
+                    "type": "boolean"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "page_options",
+              "type": "object",
+              "obj": [
+                {
+                  "name": "page_size",
+                  "type": "integer"
+                },
+                {
+                  "name": "total_pages",
+                  "type": "integer"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "url": "/portal/api/v1/community/by_owner",
+    "method": "get"
+  },
+  {
+    "request": [
+      {
+        "name": "members",
+        "type": "array",
+        "items": {
+          "obj": [
+            {
+              "name": "phone_no",
+              "type": "string"
+            },
+            {
+              "name": "designation",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    ],
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "status_code",
+        "type": "string"
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "new_members",
+            "type": "array",
+            "items": {
+              "obj": [
+                {
+                  "name": "phone_no",
+                  "type": "string"
+                },
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "designation",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "name": "invalid_members",
+            "type": "array",
+            "items": {
+              "obj": [
+                {
+                  "name": "phone_no",
+                  "type": "string"
+                },
+                {
+                  "name": "error",
+                  "type": "boolean"
+                },
+                {
+                  "name": "error_message",
+                  "type": "string"
+                },
+                {
+                  "name": "designation",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "url": "/portal/api/v1/community/{community_id}/members",
+    "method": "post"
+  },
+  {
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "status_code",
+        "type": "string"
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "pagination",
+            "type": "object",
+            "obj": [
+              {
+                "name": "page_number",
+                "type": "integer"
+              },
+              {
+                "name": "page_size",
+                "type": "integer"
+              },
+              {
+                "name": "total_pages",
+                "type": "integer"
+              }
+            ]
+          },
+          {
+            "name": "members",
+            "type": "array",
+            "items": {
+              "obj": [
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "designation",
+                  "type": "string"
+                },
+                {
+                  "name": "driver_id",
+                  "type": "string"
+                },
+                {
+                  "name": "member_id",
+                  "type": "integer"
+                },
+                {
+                  "name": "community_id",
+                  "type": "integer"
+                },
+                {
+                  "name": "community_member_mapping_id",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "integer"
+                },
+                {
+                  "name": "phone_no",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "url": "/portal/api/v1/community/{community_id}/members_list",
+    "method": "get"
+  },
+  {
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "status_code",
+        "type": "string"
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "designation",
+            "type": "string"
+          },
+          {
+            "name": "driver_id",
+            "type": "string"
+          },
+          {
+            "name": "member_id",
+            "type": "integer"
+          },
+          {
+            "name": "community_id",
+            "type": "integer"
+          },
+          {
+            "name": "community_member_mapping_id",
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "type": "integer"
+          }
+        ]
+      }
+    ],
+    "url": "/portal/api/v1/community/{community_id}/leader",
+    "method": "get"
+  },
+  {
+    "response": [
+      {
+        "name": "success",
+        "type": "boolean"
+      },
+      {
+        "name": "status_code",
+        "type": "string"
+      },
+      {
+        "name": "errors",
+        "type": "object",
+        "obj": null
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "obj": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "type": "string"
+          },
+          {
+            "name": "rider_type",
+            "type": "string"
+          },
+          {
+            "name": "total_members",
+            "type": "string"
+          },
+          {
+            "name": "manager",
+            "type": "string"
+          },
+          {
+            "name": "leader",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "url": "/portal/api/v1/community/{id}",
+    "method": "get"
+  }
+]
