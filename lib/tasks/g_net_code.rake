@@ -4,37 +4,47 @@ desc 'Generate kotlin data class and endpoints'
 
 task :g_network_code, [:file_name] do |t, args|
   api_details = SwaggerConvertor.new(args).exec
-  #puts api_details.to_json
   KotlinCodeGenerator.new(api_details).exec
 end
 
 class KotlinCodeGenerator
-  attr_reader :api_details, :data_class_requests
+  attr_reader :api_details, :converted_items
 
   def initialize(api_dtails)
     @api_details = api_dtails
-    @data_class_requests = {}
+    @converted_items = {}
   end
 
-  def exec()
+  def exec
     return '' if api_details.nil? || api_details.empty?
     api_details.map do |detail|
-      #puts get_endpoint_details(detail)
-      get_endpoint_details(detail)
+      @converted_items.store(detail[:url], EndpointBuilderService.new(detail).exec)
     end
 
-    data_class_requests.each do |req|
-      puts req
-    end
+      #puts @converted_items.to_json
+  end
+
+end
+
+
+class EndpointBuilderService
+  attr_reader :api_detail,:converted_element
+  def initialize(api_detail)
+    @api_detail = api_detail
+    @converted_element = []
+  end
+
+  def exec
+    get_endpoint_details
   end
 
   private
 
-  def get_endpoint_details(detail)
-    method = http_method(detail[:method])
-    url = detail[:url]
-    request = detail[:request]
-    response = detail[:response]
+  def get_endpoint_details
+    method = http_method(@api_detail[:method])
+    url = @api_detail[:url]
+    request = @api_detail[:request]
+    response = @api_detail[:response]
     chunks = split_url(url)
 
     interface_str_to_display = interface_name_to_display(chunks)
@@ -49,7 +59,16 @@ class KotlinCodeGenerator
 
     end_interface_string = "\n }"
 
-    interface_str_to_display + url_str_to_display + function_str_to_display + fun_content + response_str + end_interface_string
+    endpoint = interface_str_to_display + url_str_to_display + function_str_to_display + fun_content + response_str + end_interface_string
+
+    @converted_element.push(endpoint)
+
+    @converted_element.each do |element|
+      puts element
+    end
+
+    @converted_element
+
   end
 
   def fetch_path_element(chunks)
@@ -77,7 +96,13 @@ class KotlinCodeGenerator
     last_item + second_last_item + req_str
   end
 
-  def build_response_class(class_name, response) end
+  def build_response_class(class_name, response)
+    data_class_name = format_data_class_name(class_name)
+    data_class_content = format_data_class_content(response, class_name)
+    data_content = data_class_name + data_class_content + ")"
+    #puts data_content
+    @converted_element.push(data_content)
+  end
 
   def build_response(chunks, response)
     class_name = build_response_class_name(chunks)
@@ -152,6 +177,44 @@ class KotlinCodeGenerator
     '"' + name + '")' + " val #{data_param_name}: ArrayList<#{array_class_element}> \n" unless array_items.nil?
   end
 
+  def format_param_object_value(param, parent_class_name)
+    name = param[:name]
+    data_param_name = name
+    name_chunks = name.split('_')
+    class_name = name.capitalize
+    if name_chunks.length > 1
+      data_param_name = name_chunks[0] + name_chunks[1].capitalize
+      class_name = name_chunks[0].capitalize + name_chunks[1].capitalize
+    end
+
+    if parent_class_name.include?('Request')
+      if name.downcase == 'data' && name.downcase != 'errors'
+        temp = parent_class_name.slice('Request')
+        class_name = temp + 'Data'
+        data_param_name = temp.downcase + 'Data'
+      end
+      build_request_class(class_name, param[:obj])
+    end
+
+    if parent_class_name.include?('Response')
+      if name.downcase == 'data' && name.downcase != 'errors'
+        temp = parent_class_name.remove('Response')
+        class_name = temp + 'Data'
+        data_param_name = temp.downcase + 'Data'
+      end
+      build_response_class(class_name, param[:obj])
+    end
+
+    if  !parent_class_name.include?('Response') && !parent_class_name.include?('Request')
+      if name.downcase == 'data' && name.downcase != 'errors'
+        class_name = parent_class_name + 'Data'
+        data_param_name = parent_class_name.downcase + 'Data'
+      end
+    end
+
+    '"'+ name + '")' + " val #{data_param_name}: #{class_name}\n"
+  end
+
   def array_class_element_name(name_chunks)
     array_class_element = ''
     array_class_element = name_chunks[0].capitalize + name_chunks[1].capitalize if name_chunks.length > 1
@@ -159,7 +222,7 @@ class KotlinCodeGenerator
     array_class_element
   end
 
-  def format_data_class_content(params)
+  def format_data_class_content(params, parent_class_name)
     prefix = "\n"
     return prefix + ")" if params.nil? || params.empty?
     data = ''
@@ -183,6 +246,9 @@ class KotlinCodeGenerator
       when 'array'
         param_value = format_param_array_value(param)
         data += prefix_serialize + param_value
+      when 'object'
+        param_value = format_param_object_value(param, parent_class_name)
+        data += prefix_serialize + param_value
       else
         data += ""
       end
@@ -192,11 +258,12 @@ class KotlinCodeGenerator
     data
   end
 
-
   def build_request_class(class_name, request)
     data_class_name = format_data_class_name(class_name)
-    data_class_content = format_data_class_content(request)
-    data_class_name + data_class_content + ")"
+    data_class_content = format_data_class_content(request, class_name)
+    class_detail = data_class_name + data_class_content + ")"
+    #puts class_detail
+    @converted_element.push(class_detail)
   end
 
   def function_content(chunks, request)
@@ -204,7 +271,8 @@ class KotlinCodeGenerator
     return ')' if (path_element.nil? || path_element.blank?) && (request.nil? || request.empty?)
     return path_element + ')' if request.nil? || request.empty?
     class_name = build_request_class_name(chunks)
-    data_class_requests.store(class_name, build_request_class(class_name, request))
+    build_request_class(class_name, request)
+    #data_class_requests.store(class_name, build_request_class(class_name, request))
     body_req = '@Body req: '
     return path_element +', ' + body_req + class_name + ')' unless (path_element.nil? || path_element.blank?)
     body_req + class_name + ')'
@@ -254,6 +322,7 @@ class KotlinCodeGenerator
     class_name = format_endpoint_class_name(chunks)
     "interface #{class_name} { \n"
   end
+
 end
 
 
@@ -273,7 +342,7 @@ class SwaggerConvertor
     convert_desired_format(api_details, path_array)
   end
 
-  private_methods
+  private
 
   def get_property_keys(properties)
     properties.keys
