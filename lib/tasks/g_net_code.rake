@@ -17,13 +17,27 @@ class KotlinCodeGenerator
 
   def exec
     return '' if api_details.nil? || api_details.empty?
+    file = FileGenerator.new.exec
+    content = ''
     api_details.map do |detail|
-      @converted_items.store(detail[:url], EndpointBuilderService.new(detail).exec)
-    end
+      contents = EndpointBuilderService.new(detail).exec
+      content += "\n//------------------------------ #{detail[:url]} ----------------------------------------\n\n"
+      contents.each do | data |
+        content +=  data + "\n"
+      end
 
-      #puts @converted_items.to_json
+    end
+    file.puts(content)
+    file.close
   end
 
+end
+
+
+class FileGenerator
+  def exec
+    File.new("NetworkApi.kt", "w")
+  end
 end
 
 
@@ -63,9 +77,11 @@ class EndpointBuilderService
 
     @converted_element.push(endpoint)
 
+=begin
     @converted_element.each do |element|
       puts element
     end
+=end
 
     @converted_element
 
@@ -157,6 +173,14 @@ class EndpointBuilderService
     '"' + name + '")' + " val #{data_param_name}: Double \n"
   end
 
+  def format_param_double_value(param)
+    name = param[:name]
+    data_param_name = name
+    name_chunks = name.split('_')
+    data_param_name = name_chunks[0] + name_chunks[1].capitalize if name_chunks.length > 1
+    '"' + name + '")' + " val #{data_param_name}: Long \n"
+  end
+
   def save_array_element(array_class_element, object)
     build_request_class(array_class_element, object)
   end
@@ -223,8 +247,7 @@ class EndpointBuilderService
   end
 
   def format_data_class_content(params, parent_class_name)
-    prefix = "\n"
-    return prefix + ")" if params.nil? || params.empty?
+    return ''  if params.nil? || params.empty?
     data = ''
     params.each_with_index do |param, i|
       param
@@ -243,6 +266,9 @@ class EndpointBuilderService
       when 'double'
         param_value = format_param_double_value(param)
         data += prefix_serialize + param_value
+      when 'long'
+        param_value = format_param_long_value(param)
+        data += prefix_serialize + param_value
       when 'array'
         param_value = format_param_array_value(param)
         data += prefix_serialize + param_value
@@ -253,7 +279,6 @@ class EndpointBuilderService
         data += ""
       end
       data += "," if i < params.length - 1
-      #data += "\n)" if i == params.length - 1
     end
     data
   end
@@ -262,7 +287,6 @@ class EndpointBuilderService
     data_class_name = format_data_class_name(class_name)
     data_class_content = format_data_class_content(request, class_name)
     class_detail = data_class_name + data_class_content + ")"
-    #puts class_detail
     @converted_element.push(class_detail)
   end
 
@@ -272,7 +296,6 @@ class EndpointBuilderService
     return path_element + ')' if request.nil? || request.empty?
     class_name = build_request_class_name(chunks)
     build_request_class(class_name, request)
-    #data_class_requests.store(class_name, build_request_class(class_name, request))
     body_req = '@Body req: '
     return path_element +', ' + body_req + class_name + ')' unless (path_element.nil? || path_element.blank?)
     body_req + class_name + ')'
